@@ -1,52 +1,52 @@
-# Sentinel-LLM
-**Post-Hoc Reliability Auditing for Large Language Models**
-
-## Overview
-Sentinel-LLM is an end-to-end NLP system designed to identify hallucination risk and unsupported claims in large language model (LLM) outputs. The system operates post-generation, requiring no access to model internals, making it suitable for auditing both closed and open-weight models.
-
-The project investigates whether surface-level linguistic patterns—such as overconfidence markers and structural inconsistencies—can be used to estimate output reliability.
+# LLM Hallucination Detection
+> Detecting hallucinated language model outputs using lightweight NLP classifiers.
 
 ---
 
-## Project Overview
-Sentinel-LLM processes generated text, extracts interpretable language features, and applies supervised classifiers to flag high-risk responses. The system is lightweight, fast, and designed to integrate as a safety layer in downstream LLM workflows.
-
-The pipeline is structured to support reproducibility, benchmarking, and future extensions toward semantic and retrieval-based validation.
-
----
-
-## Core Capabilities
-- Text preprocessing and normalization  
-- TF-IDF–based feature extraction  
-- Supervised classification (logistic regression)  
-- Hallucination risk scoring  
-- Quantitative evaluation and benchmarking  
-- Modular post-hoc auditing architecture  
+## Features
+- Text-based hallucination detection for LLM outputs  
+- TF-IDF feature extraction over generated responses  
+- Logistic regression classifiers for interpretability and speed  
+- Fully Python-based implementation  
+- Designed as a baseline and diagnostic tool rather than a black box  
 
 ---
 
-## Repository Structure
+## Why This Exists
+Large language models can produce fluent responses that are factually incorrect or unsupported. These failures are often subtle and difficult to detect automatically, especially without expensive verification pipelines.
 
-sentinel-LLM/
-├── data/ # Labeled training and evaluation samples
-├── src/
-│ ├── train.py # Model training pipeline
-│ ├── evaluate.py # Evaluation and metrics
-│ └── utils.py # Preprocessing utilities
-├── models/ # Saved trained models
-├── requirements.txt
+This project explores whether simple, interpretable NLP features can act as a first line of defense by flagging likely hallucinations before downstream use.
+
+---
+
+## How It Works
+The system treats hallucination detection as a standard text classification problem.
+
+1. Model outputs are collected and labeled as grounded or hallucinated  
+2. TF-IDF features are extracted from the text  
+3. A logistic regression classifier is trained on these features  
+4. New outputs are scored for hallucination likelihood  
+
+The focus is on transparency and speed rather than complex model stacking.
+
+---
+
+## Tech Stack
+- **Language:** Python  
+- **NLP:** TF-IDF feature extraction  
+- **ML:** Logistic regression  
+- **Libraries:** scikit-learn, NumPy, pandas  
+
+---
+
+## Project Structure
+```text
+hallucination-detection/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── features/
+├── models/
+├── training/
+├── evaluation/
 └── README.md
-
-
----
-
-## Intended Use
-Sentinel-LLM is intended for research and experimentation in LLM safety, reliability, and alignment. It is not a replacement for human verification but serves as an automated early-warning mechanism.
-
----
-
-## Future Work
-- Multi-class risk stratification  
-- Semantic consistency modeling  
-- Cross-model generalization analysis  
-- Integration with agentic and retrieval systems  
